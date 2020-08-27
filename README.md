@@ -1,6 +1,6 @@
 # ku-polls
 
-This repository is for developing an application for conduction a poll. <br>
+This repository is for developing an application for conducting a poll. <br>
 <br>
 
 
