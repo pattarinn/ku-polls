@@ -1,23 +1,28 @@
-
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.contrib import messages
 
 from .models import Question, Choice
 
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
-    context_object_name = 'latest_question_list'
+    context_object_name = 'question_list'
 
     def get_queryset(self):
         """
-        Return the last five published questions (not including those set to be
-        published in the future).
+        Return the polls that are in polling period.
         """
-        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
+        return Question.objects.filter(pub_date__lte=timezone.now(), end_date__gte=timezone.now()).order_by('-pub_date')
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(IndexView, self).get_context_data(**kwargs)
+    #     Question.objects.filter(pub_date__lte=timezone.now(), end_date__gte=timezone.now()).order_by('-pub_date')
+    #     context['results'] =
+    #     return context
 
 
 class DetailView(generic.DetailView):
@@ -49,3 +54,17 @@ def vote(request, question_id):
         selected_choice.votes += 1
         selected_choice.save()
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+
+def can_access(request, question_id):
+    """
+    can_access checks if the question is in the polling period or not.
+    If it is, visitors will be able to access to detail page.
+    If it isn't, visitors will be redirected to poll index page with the error message.
+    """
+    question = get_object_or_404(Question, pk=question_id)
+    if not question.can_vote():
+        messages.error(request, f"The question is not in the polling period.")
+        return redirect('polls:index')
+    else:
+        return vote(request, question_id)
