@@ -16,13 +16,8 @@ class IndexView(generic.ListView):
         """
         Return the polls that are in polling period.
         """
-        return Question.objects.filter(pub_date__lte=timezone.now(), end_date__gte=timezone.now()).order_by('-pub_date')
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(IndexView, self).get_context_data(**kwargs)
-    #     Question.objects.filter(pub_date__lte=timezone.now(), end_date__gte=timezone.now()).order_by('-pub_date')
-    #     context['results'] =
-    #     return context
+        return Question.objects.filter(pub_date__lte=timezone.now(),
+                                       end_date__gte=timezone.now()).order_by('-pub_date')
 
 
 class DetailView(generic.DetailView):
