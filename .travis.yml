@@ -14,6 +14,7 @@ install:
 before_script:
    - echo "DEBUG = False" >> .env
    - echo "SECRET_KEY = $ SECRET_KEY" >> .env
+   - python manage.py migrate
 
 # script to run tests. Script can have many commands, one per line.
 script:
