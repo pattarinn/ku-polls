@@ -20,7 +20,7 @@ class IndexView(generic.ListView):
         """
         Get polls that are in polling period.
 
-        Return:
+        Returns:
              Polls that are in polling period.
         """
         return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')
