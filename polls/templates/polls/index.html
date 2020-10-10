@@ -16,4 +16,6 @@
         <a href="{% url 'polls:results' question.id %}">Result</a>
     {% endfor %}
     </ul>
+{% else %}
+    <p>No polls are available.</p>
 {% endif %}

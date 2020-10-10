@@ -98,6 +98,21 @@ class QuestionIndexViewTests(TestCase):
         self.assertQuerysetEqual(response.context['question_list'], ['<Question: Past question 2.>',
                                                                      '<Question: Past question 1.>'])
 
+    def test_no_question(self):
+        """If no questions exist, an appropriate message is displayed."""
+        response = self.client.get(reverse('polls:index'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No polls are available.")
+        self.assertQuerysetEqual(response.context['question_list'], [])
+
+    def test_future_question(self):
+        """Questions with a pub_date in the future aren't displayed on the index page."""
+        create_question(question_text="Future question.",
+                        days=30)
+        response = self.client.get(reverse('polls:index'))
+        self.assertContains(response, "No polls are available.")
+        self.assertQuerysetEqual(response.context['question_list'], [])
+
 
 class QuestionDetailViewTests(TestCase):
     """A class for checking detail view."""
