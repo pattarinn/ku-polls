@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
-
+from django.contrib.auth.decorators import login_required
 from .models import Question, Choice
 
 
@@ -74,6 +74,7 @@ def vote(request, question_id):
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
 
+@login_required()
 def can_access(request, question_id):
     """
     can_access checks if the question is in polling period.
