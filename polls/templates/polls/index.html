@@ -9,6 +9,7 @@
 </ul>
 {% endif %}
 
+<h3>Hello, {{ user.first_name }}!</h3>
 {% if question_list %}
     <ul>
     {% for question in question_list %}
@@ -19,3 +20,5 @@
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
+
+<a href="{% url 'logout' %}">Logout</a>
