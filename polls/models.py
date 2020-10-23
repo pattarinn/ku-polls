@@ -3,6 +3,7 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 class Question(models.Model):
@@ -50,15 +51,19 @@ class Question(models.Model):
         return self.is_published() and now <= self.end_date
 
 
+class Vote(models.Model):
+    """ A class for voting."""
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+
+
 class Choice(models.Model):
     """A class for making a choice in database."""
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=200)
     votes = models.IntegerField(default=0)
+    # vote = models.ForeignKey(Vote, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.choice_text
 
-# class Vote(models.Model):
-#     user = models.ForeignKey
