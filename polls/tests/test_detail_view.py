@@ -28,9 +28,9 @@ class QuestionDetailViewTests(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(username='username', email='someemail@mail.com', password='qwerxhucj12')
-        self.user.first_name = "testuser"
-        self.user.last_name = "hello"
-        self.user.save()
+        # self.user.first_name = "testuser"
+        # self.user.last_name = "hello"
+        # self.user.save()
 
     def test_future_question(self):
         """The detail view of a question with a pub_date in the future returns a 404 not found."""
