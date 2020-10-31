@@ -12,5 +12,5 @@ urlpatterns = [
     path('<int:pk>/', login_required(views.detail_view), name='detail'),
     path('<int:pk>/results/', views.ResultsView.as_view(), name='results'),
     # path('<int:pk>/results/', views.result_view, name='results'),
-    path('<int:question_id>/vote/', views.can_access, name='vote'),
+    path('<int:question_id>/vote/', login_required(views.can_access), name='vote'),
 ]

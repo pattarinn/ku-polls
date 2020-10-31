@@ -81,11 +81,15 @@ def detail_view(request, pk):
     # # question = get_object_or_404(Question, pk=pk)
     # context = {'question': question}
     # return render(request, "polls/detail.html", context)
-    if question.can_vote():
-        context = {'question': question}
-        return render(request, "polls/detail.html", context)
-    else:
-        raise Http404("This question is not in the polling period")
+    try:
+        if question.can_vote():
+            context = {'question': question}
+            return render(request, "polls/detail.html", context)
+        else:
+            raise Http404("This question is not in the polling period")
+    except Http404:
+        messages.error(request, f"The question is not in the polling period.")
+        return HttpResponseRedirect(reverse('polls:index'))
 
 
 class ResultsView(generic.DetailView):
