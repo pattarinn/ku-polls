@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 
 from polls.views import index_view
+# from polls.views import IndexView
 
 urlpatterns = [
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
+    # path('', IndexView.as_view, name='index'),
     path('', index_view, name='index'),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
