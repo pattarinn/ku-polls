@@ -173,7 +173,7 @@ def user_login(request, **kwargs):
 @receiver(user_login_failed)
 def user_login(request, **kwargs):
     username = request.POST['username']
-    logger.warning(f"warning:{username} logged in failed, IP: {request.META.get('REMOTE_ADDR')}")
+    logger.warning(f"warning: {username} logged in failed, IP: {request.META.get('REMOTE_ADDR')}")
 
 
 
