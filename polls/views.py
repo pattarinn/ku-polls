@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.http import Http404
 from django.contrib.auth import user_logged_in, user_logged_out, user_login_failed
 from .models import Question, Choice
 from django.dispatch import receiver
@@ -78,8 +78,14 @@ def detail_view(request, pk):
         Polls detail page
     """
     question = Question.objects.get(pk=pk)
-    context = {'question': question}
-    return render(request, "polls/detail.html", context)
+    # # question = get_object_or_404(Question, pk=pk)
+    # context = {'question': question}
+    # return render(request, "polls/detail.html", context)
+    if question.can_vote():
+        context = {'question': question}
+        return render(request, "polls/detail.html", context)
+    else:
+        raise Http404("This question is not in the polling period")
 
 
 class ResultsView(generic.DetailView):
@@ -89,9 +95,9 @@ class ResultsView(generic.DetailView):
     template_name = "polls/results.html"
 
 
-def result_view(request):
-    # context = {}
-    return render(request, "polls/results.html")
+# def result_view(request):
+#     # context = {}
+#     return render(request, "polls/results.html")
 
 
 def vote(request, question_id):
