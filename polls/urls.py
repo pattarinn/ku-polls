@@ -13,4 +13,7 @@ urlpatterns = [
     path('<int:pk>/results/', views.ResultsView.as_view(), name='results'),
     # path('<int:pk>/results/', views.result_view, name='results'),
     path('<int:question_id>/vote/', login_required(views.can_access), name='vote'),
+
+    # path('login/', views.user_login, name='login'),
+    # path('register/', views.user_register, name='register'),
 ]

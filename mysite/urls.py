@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from polls.views import index_view
+from polls.views import index_view, signup
 # from polls.views import IndexView
 
 urlpatterns = [
@@ -25,4 +25,5 @@ urlpatterns = [
     # path('', IndexView.as_view, name='index'),
     path('', index_view, name='index'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('signup/', signup, name='signup'),
 ]
