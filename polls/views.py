@@ -80,7 +80,12 @@ def detail_view(request, pk):
     question = Question.objects.get(pk=pk)
     try:
         if question.can_vote():
-            context = {'question': question}
+            vote_choice = Vote.objects.filter(user_id=request.user.id, question_id=question.id).exists()
+            if vote_choice:
+                vote_choice = Vote.objects.get(user_id=request.user.id, question_id=question.id)
+                context = {'question': question, 'voted_choice': vote_choice.choice_id}
+            else:
+                context = {'question': question, 'voted_choice': None}
             return render(request, "polls/detail.html", context)
         else:
             raise Http404("This question is not in the polling period")
